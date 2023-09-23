@@ -1,0 +1,38 @@
+﻿@model WebRegistroLibros.Models.Libro
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml"; /* No esta completo la direccion del Layaout */
+}
+
+<div class="container"> @* se debe agregar container porque esta mal escrito *@
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Eliminar Libro</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-10">
+            <form method="post" asp-action="DeleteLibro"> @* No es metodo get si no que post *@
+
+                <input type="hidden" asp-for="Id" />
+
+               
+
+                <div class="from-group">
+                    <input type="submit" value="Eliminar Libro" class="btn btn-primary" /> @* el type es submit no Hidden *@
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{ @* la palabra Script debe ser plural *@
+    @{
+        <partial name="_validationScriptsPartial" />
+    }
+}
+

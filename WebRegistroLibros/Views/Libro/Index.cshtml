@@ -56,7 +56,9 @@
                                @*  //es <a asp-controller></a> *@
                                 <a asp-controller="Libro" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a> @* asp-asp-route="@item.Id" no es; es: asp-route-id="@item.Id"*@
                                 <a asp-controller="Libro" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                                <a asp-controller="Libro" asp-action="GeneratePdf" asp-route-id="@item.Id" class="btn btn-primary">Descargar PDF</a>
                             </td>
+                            
                         </tr>
                     }
                 </tbody>
@@ -66,7 +68,8 @@
         {
             <p>No existen registros</p>
         }
+         
     </div>
-
+   
 </div>
 

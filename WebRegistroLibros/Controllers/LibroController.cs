@@ -2,6 +2,8 @@
 using WebRegistroLibros.Data;
 using WebRegistroLibros;
 using WebRegistroLibros.Models;
+using Microsoft.AspNetCore.SignalR;
+using WebRegistroLibros.Hubs;
 
 namespace WebRegistroLibros.Controllers
 {
@@ -10,11 +12,13 @@ namespace WebRegistroLibros.Controllers
     {
         // Declara una variable privada readonly llamada _context que almacena una instancia de ApplicationDbContext.
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<NotificacionHub> _hubContext;
 
         // Constructor de la clase LibroController que recibe una instancia de ApplicationDbContext a través de la inyección de dependencias.
-        public LibroController(ApplicationDbContext context)
+        public LibroController(ApplicationDbContext context, IHubContext<NotificacionHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         // Método de acción para la ruta "Index".
@@ -44,6 +48,11 @@ namespace WebRegistroLibros.Controllers
                 // Agrega el objeto libro al contexto y guarda los cambios en la base de datos.
                 _context.Libro.Add(libro);
                 _context.SaveChanges();
+
+                var mensaje = "Se ha agregado un nuevo libro: " + libro.Titulo;
+                _hubContext.Clients.All.SendAsync("RecibirNotificacion", mensaje);
+                Console.WriteLine("Notificación enviada: " + mensaje);
+
 
                 // Establece un mensaje en TempData para mostrar en la vista.
                 TempData["mensaje"] = "El libro se ha guardado correctamente";

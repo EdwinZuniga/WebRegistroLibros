@@ -2,8 +2,9 @@
 using WebRegistroLibros.Data;
 using WebRegistroLibros;
 using WebRegistroLibros.Models;
-using Microsoft.AspNetCore.SignalR;
 using WebRegistroLibros.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using Rotativa.AspNetCore;
 
 namespace WebRegistroLibros.Controllers
 {
@@ -147,6 +148,27 @@ namespace WebRegistroLibros.Controllers
 
             // Redirige a la acción "Index".
             return RedirectToAction("Index");
+        }
+
+        //Imprimir PDF
+        public IActionResult GeneratePdf(int id)
+        {
+            var libros = _context.Libro.Find(id);
+
+            if (libros == null)
+            {
+                return NotFound();
+            }
+
+            // Genera el PDF utilizando la vista "PdfView" y el modelo del libro.
+            var pdf = new ViewAsPdf("Index", new List<Libro> { libros})
+            {
+                FileName = "Libro.pdf", // Nombre del archivo PDF
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Landscape, // Orientación de la página (opcional)
+                PageSize = Rotativa.AspNetCore.Options.Size.A4, // Tamaño de la página (opcional)
+            };
+
+            return pdf;
         }
     }
 }

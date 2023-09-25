@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WebRegistroLibros.Data;
 using WebRegistroLibros.Hubs;
+using Rotativa;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,5 +38,8 @@ app.MapHub<NotificacionHub>("/notificacionHub");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Libro}/{action=Index}/{id?}");
+
+IWebHostEnvironment env = app.Environment;
+Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa");
 
 app.Run();
